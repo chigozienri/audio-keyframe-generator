@@ -76,25 +76,28 @@ function filterData(audioBuffer) {
 //   audioBufferSourceNode.connect(analyser);
 //   console.log(dataArray);
 //   audioBufferSourceNode.connect(audioContext.destination)
-  function addArrayElements(a,b){
-    return a.map((e,i) => e + b[i]);
+  
+  
+  // Average between channels. Take abs so we don't have phase issues (and we eventually want absolute value anyway, for volume).
+  function addAbsArrayElements(a,b){
+    return a.map((e,i) => Math.abs(e) + Math.abs(b[i]));
   }
   let channels = []
   for (let i=0; i<audioBuffer.numberOfChannels; i++) {
     channels.push(audioBuffer.getChannelData(i));
   }
-  channels.reduce(addArrayElements)
-  const rawData = audioBuffer.getChannelData(0); // We only need to work with one channel of data
+  const rawData = channels.reduce(addAbsArrayElements).map((x) => x/audioBuffer.numberOfChannels);
+  // const rawData = audioBuffer.getChannelData(0); // We only need to work with one channel of data
   const samples = audioBuffer.duration * framerate.value; //rawData.length; // Number of samples we want to have in our final data set
   const blockSize = Math.floor(rawData.length / samples); // Number of samples in each subdivision
   var filteredData = [];
   for (let i = 0; i < samples; i++) {
     let chunk = rawData.slice(i * blockSize, (i + 1) * blockSize - 1)
-    let sum = chunk.reduce((a, b) => Math.abs(a) + Math.abs(b), 0);
+    let sum = chunk.reduce((a, b) => a + b, 0);
     filteredData.push(sum/chunk.length);
   }
-  let max = Math.max(...filteredData);
-  filteredData = filteredData.map((x) => x/max)
+  let max = Math.max(...filteredData); // Normalise - maybe not ideal.
+  filteredData = filteredData.map((x) => x/max).map((x) => )
   output.innerHTML = getString(filteredData);
   return filteredData;
 }
