@@ -65,11 +65,20 @@
       let audio = document.querySelector("#audio");
       audio.onchange = () => {readFile(audio.files[0])}
       let content = {};
-      content.registerListener((val) => {console.log(val)})
+      let contentProxy = new Proxy(content, {
+        set: function (target, key, value) {
+          if (key == 'base64') {
+            play(value);
+          }
+          target[key] = value;
+          return true;
+      }
+      });
+
       function readFile(file) {
         const reader = new FileReader();
         reader.addEventListener('load', (event) => {
-          content = event.target.result;
+          contentProxy.base64 = event.target.result;
         });
 
         reader.addEventListener('progress', (event) => {
@@ -79,6 +88,12 @@
           }
         });
         reader.readAsDataURL(file);
+      }
+      
+      function play(base64) {
+        console.log(base64);
+        let pz = new Audio(base64);
+        pz.play();
       }
     </script>
     <!-- The footer holds our remix button — you can use it for structure or cut it out ✂ -->
