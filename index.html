@@ -42,6 +42,7 @@
     <link rel="stylesheet" href="/style.css" />
 
     <!-- Import the webpage's javascript file -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.19.0/full/pyodide.js"></script>
     <script src="/script.js" defer></script>
   </head>
   <body>
@@ -62,6 +63,8 @@
         <input type="file" id="audio" accept="audio/*" />
         <label for="framerate">Framerate (fps)</label>
         <input id="framerate" />
+        <label for="fn">Function</label>
+        <input id="fn" />
         <button id="analyse">Analyse audio</button>
         <div id="outputcontainer">
           <div id="output">Output string will appear here</div>

@@ -7,6 +7,8 @@ let currentBuffer = null;
 const audio = document.querySelector("#audio");
 const framerate = document.querySelector("#framerate");
 framerate.value = 12;
+const fn = document.querySelector("#fn");
+fn.value = 'x';
 const analyse = document.querySelector("#analyse");
 analyse.onclick = () => {
   readFile(audio.files[0]);
@@ -97,7 +99,7 @@ function filterData(audioBuffer) {
     filteredData.push(sum/chunk.length);
   }
   let max = Math.max(...filteredData); // Normalise - maybe not ideal.
-  filteredData = filteredData.map((x) => x/max).map((x) => )
+  filteredData = filteredData.map((x) => x/max).map((x) => Function(`"use strict";return (${pyodide.runPython(fn.value.replace('x', x)})`)());
   output.innerHTML = getString(filteredData);
   return filteredData;
 }
