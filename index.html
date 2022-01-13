@@ -63,12 +63,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pizzicato/0.6.4/Pizzicato.min.js" integrity="sha512-K+cPWcoDCr2JFFfe912LrvRUQbVJuWNfeWK5r/HrmpDs8ELrsjVib8Fs5oAxzu76fG66ajGhDLvvcxBbeEzl9g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
       let audio = document.querySelector("#audio");
-      const reader = new FileReader();
-      reader.addEventListener('load', (event) => {
-        console.log(event.target.result);
-      });
-      audio.onchange = () => {play(audio.files[0])}
-      function play (file) {
+      audio.onchange = () => {readFile(audio.files[0])}
+      let content = {};
+      content.registerListener((val) => {console.log(val)})
+      function readFile(file) {
+        const reader = new FileReader();
+        reader.addEventListener('load', (event) => {
+          content = event.target.result;
+        });
+
+        reader.addEventListener('progress', (event) => {
+          if (event.loaded && event.total) {
+            const percent = (event.loaded / event.total) * 100;
+            console.log(`Progress: ${Math.round(percent)}`);
+          }
+        });
         reader.readAsDataURL(file);
       }
     </script>
