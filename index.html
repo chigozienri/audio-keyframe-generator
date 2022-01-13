@@ -60,7 +60,7 @@
         <input type="file" id="audio" accept="audio/*" />
       </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pizzicato/0.6.4/Pizzicato.min.js" integrity="sha512-K+cPWcoDCr2JFFfe912LrvRUQbVJuWNfeWK5r/HrmpDs8ELrsjVib8Fs5oAxzu76fG66ajGhDLvvcxBbeEzl9g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!--     <script src="https://cdnjs.cloudflare.com/ajax/libs/pizzicato/0.6.4/Pizzicato.min.js" integrity="sha512-K+cPWcoDCr2JFFfe912LrvRUQbVJuWNfeWK5r/HrmpDs8ELrsjVib8Fs5oAxzu76fG66ajGhDLvvcxBbeEzl9g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
     <script>
       // Set up audio context
       window.AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -105,9 +105,27 @@
           return bytes.buffer;
       }
       
+      function filterData (audioBuffer) {
+        const rawData = audioBuffer.getChannelData(0); // We only need to work with one channel of data
+        const samples = 70; // Number of samples we want to have in our final data set
+        const blockSize = Math.floor(rawData.length / samples); // Number of samples in each subdivision
+        const filteredData = [];
+        for (let i = 0; i < samples; i++) {
+          filteredData.push(rawData[i * blockSize]); 
+        }
+        return filteredData;
+      }
+      
       function play(base64) {
-        let audio = new Audio(base64);
-        console.log(audio);
+        let audioBuffer;
+        fetch(base64)
+          .then(response => response.arrayBuffer())
+          .then(arrayBuffer => audioBuffer = audioContext.decodeAudioData(arrayBuffer));
+          // .then(audioBuffer => audioBuffer = audioBuffer);
+        
+        console.log(filterData(audioBuffer));
+        // let audio = new Audio(base64);
+        // console.log(audio.audioTracks);
         // let arrayBuffer = _base64ToArrayBuffer(base64);
         // let audioBuffer = audioContext.decodeAudioData(arrayBuffer);
         // console.log(audioBuffer);
