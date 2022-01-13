@@ -26,6 +26,9 @@ let contentProxy = new Proxy(content, {
   },
 });
 
+
+let decimalPrecision = 2;
+
 function readFile(file) {
   const reader = new FileReader();
   reader.addEventListener("load", (event) => {
@@ -43,7 +46,6 @@ function readFile(file) {
 
 function getString(arr) {
   let string = "";
-  let decimalPrecision = 2;
   for (let ind of Object.keys(arr)) {
     let sample = arr[ind];
     string = string.concat(
@@ -58,6 +60,7 @@ function getString(arr) {
 
 function filterData(audioBuffer) {
   const rawData = audioBuffer.getChannelData(0); // We only need to work with one channel of data
+  console.log(rawData);
   const samples = 70; //rawData.length; // Number of samples we want to have in our final data set
   const blockSize = Math.floor(rawData.length / samples); // Number of samples in each subdivision
   var filteredData = [];
