@@ -62,17 +62,25 @@ function getString(arr) {
 }
 
 function filterData(audioBuffer) {
-  let nChannels = audioBuffer.numberOfChannels;
-  let merger = new ChannelMergerNode(audioContext, {numberOfInputs: 1, channelCount: 1, channelCountMode: 'explicit'});
-  let audioBufferSourceNode = new AudioBufferSourceNode(context, {buffer: audioBuffer.getChannelData(0)})
-  audioBuffer.connect(merger, 0, 0);
-  console.log(merger);
-  const rawData = audioBuffer.getChannelData(0); // We only need to work with one channel of data
+  // let nChannels = audioBuffer.numberOfChannels;
+  // let merger = new ChannelMergerNode(audioContext, {numberOfInputs: 1, channelCount: 1, channelCountMode: 'explicit'});
+  let audioBufferSourceNode = new AudioBufferSourceNode(audioContext, {buffer: audioBuffer})
+  // audioBufferSourceNode.connect(merger, 0, 0);
+  // console.log(merger);
+  var analyser = audioContext.createAnalyser();
+  audioBufferSourceNode.connect(analyser);
+  // analyser.fftSize = 2048;
+  var bufferLength = analyser.frequencyBinCount;
+  var dataArray = new Uint8Array(bufferLength);
+  analyser.getByteTimeDomainData(dataArray);
+  console.log(dataArray);
+  
+  // const rawData = audioBuffer.getChannelData(0); // We only need to work with one channel of data
   const samples = audioBuffer.duration * framerate.value; //rawData.length; // Number of samples we want to have in our final data set
-  const blockSize = Math.floor(rawData.length / samples); // Number of samples in each subdivision
+  const blockSize = Math.floor(dataArray.length / samples); // Number of samples in each subdivision
   var filteredData = [];
   for (let i = 0; i < samples; i++) {
-    let chunk = rawData.slice(i * blockSize, (i + 1) * blockSize - 1)
+    let chunk = dataArray.slice(i * blockSize, (i + 1) * blockSize - 1)
     let sum = chunk.reduce((a, b) => Math.abs(a) + Math.abs(b), 0);
     filteredData.push(sum/chunk.length);
   }
