@@ -62,6 +62,11 @@
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pizzicato/0.6.4/Pizzicato.min.js" integrity="sha512-K+cPWcoDCr2JFFfe912LrvRUQbVJuWNfeWK5r/HrmpDs8ELrsjVib8Fs5oAxzu76fG66ajGhDLvvcxBbeEzl9g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
+      // Set up audio context
+      window.AudioContext = window.AudioContext || window.webkitAudioContext;
+      const audioContext = new AudioContext();
+      let currentBuffer = null;
+      
       let audio = document.querySelector("#audio");
       audio.onchange = () => {readFile(audio.files[0])}
       let content = {};
@@ -90,10 +95,25 @@
         reader.readAsDataURL(file);
       }
       
+      function _base64ToArrayBuffer(base64) {
+          var binary_string = window.atob(base64);
+          var len = binary_string.length;
+          var bytes = new Uint8Array(len);
+          for (var i = 0; i < len; i++) {
+              bytes[i] = binary_string.charCodeAt(i);
+          }
+          return bytes.buffer;
+      }
+      
       function play(base64) {
-        console.log(base64);
-        let pz = new Audio(base64);
-        pz.play();
+        let audio = new Audio(base64);
+        console.log(audio);
+        // let arrayBuffer = _base64ToArrayBuffer(base64);
+        // let audioBuffer = audioContext.decodeAudioData(arrayBuffer);
+        // console.log(audioBuffer);
+        // 
+        // audioBuffer.play();
+        // console.log(audioBuffer.getChannelData(0));
       }
     </script>
     <!-- The footer holds our remix button — you can use it for structure or cut it out ✂ -->
