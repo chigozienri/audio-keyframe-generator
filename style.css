@@ -153,7 +153,6 @@ body {
 }
 
 /* Button - Add it from the README instructions */
-button,
 input {
   font-family: inherit;
   font-size: 100%;
@@ -170,14 +169,20 @@ h2 {
   color: #2800FF;
 }
 
-
 #output {
   font-family: inherit;
   font-size: 100%;
   background: #FFFFFF;
   border: 1px solid #000000;
   box-sizing: border-box;
-  border-radius: 4px;
   padding: 0.5rem 1rem;
   width: 100%;
+}
+
+#copy {
+  float: right;
+}
+#outputcontainer {
+  width: 100%;
+  margin: 1rem;
 }

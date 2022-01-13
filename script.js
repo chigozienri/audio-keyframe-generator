@@ -11,6 +11,10 @@ audio.onchange = () => {
 const output = document.querySelector("#output");
 const copy = document.querySelector("#copy");
 
+copy.onclick = () => {
+  window.prompt("Copy to clipboard: Ctrl+C, Enter", output.innerHTML);
+};
+
 let content = {};
 let contentProxy = new Proxy(content, {
   set: function (target, key, value) {
@@ -37,24 +41,17 @@ function readFile(file) {
   reader.readAsDataURL(file);
 }
 
-function _base64ToArrayBuffer(base64) {
-  var binary_string = window.atob(base64);
-  var len = binary_string.length;
-  var bytes = new Uint8Array(len);
-  for (var i = 0; i < len; i++) {
-    bytes[i] = binary_string.charCodeAt(i);
-  }
-  return bytes.buffer;
-}
-
 function getString(arr) {
   let string = "";
   let decimalPrecision = 2;
   for (let ind of Object.keys(arr)) {
     let sample = arr[ind];
     string = string.concat(
-      `${ind}: (${parseFloat(sample).toFixed(decimalPrecision)}), `
+      `${ind}: (${parseFloat(sample).toFixed(decimalPrecision)})`
     );
+    if (ind < arr.length - 1) {
+      string = string.concat(', ');
+    }
   }
   return string;
 }
