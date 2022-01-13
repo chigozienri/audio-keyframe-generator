@@ -58,109 +58,11 @@
       <div class="content" role="main">
         <!-- This is the start of content for our page -->
         <input type="file" id="audio" accept="audio/*" />
-        <div id="output">
-          Output
+        <div id="outputcontainer">
+          <div id="output">Output</div>
+          <button id="copy">Copy string</button>
         </div>
       </div>
     </div>
-    <script>
-      // Set up audio context
-      window.AudioContext = window.AudioContext || window.webkitAudioContext;
-      const audioContext = new AudioContext();
-      let currentBuffer = null;
-
-      let audio = document.querySelector("#audio");
-      audio.onchange = () => {
-        readFile(audio.files[0]);
-      }; 
-      let output = document.querySelector("#output");
-      
-      let content = {};
-      let contentProxy = new Proxy(content, {
-        set: function (target, key, value) {
-          if (key == "base64") {
-            play(value);
-          }
-          target[key] = value;
-          return true;
-        },
-      });
-
-      function readFile(file) {
-        const reader = new FileReader();
-        reader.addEventListener("load", (event) => {
-          contentProxy.base64 = event.target.result;
-        });
-
-        reader.addEventListener("progress", (event) => {
-          if (event.loaded && event.total) {
-            const percent = (event.loaded / event.total) * 100;
-            console.log(`Progress: ${Math.round(percent)}`);
-          }
-        });
-        reader.readAsDataURL(file);
-      }
-
-      function _base64ToArrayBuffer(base64) {
-        var binary_string = window.atob(base64);
-        var len = binary_string.length;
-        var bytes = new Uint8Array(len);
-        for (var i = 0; i < len; i++) {
-          bytes[i] = binary_string.charCodeAt(i);
-        }
-        return bytes.buffer;
-      }
-
-      function getString(arr) {
-        let string = "";
-        let decimalPrecision = 7;
-        for (let ind of Object.keys(arr)) {
-          let sample = arr[ind];
-          string = string.concat(
-            `${ind}: (${parseFloat(sample).toFixed(decimalPrecision)}), `
-          );
-        }
-        return string;
-      }
-
-      function filterData(audioBuffer) {
-        const rawData = audioBuffer.getChannelData(0); // We only need to work with one channel of data
-        const samples = 70; //rawData.length; // Number of samples we want to have in our final data set
-        const blockSize = Math.floor(rawData.length / samples); // Number of samples in each subdivision
-        const filteredData = [];
-        for (let i = 0; i < samples; i++) {
-          let chunk = rawData.slice(i * blockSize, (i + 1) * blockSize - 1)
-          let sum = chunk.reduce((a, b) => Math.abs(a) + Math.abs(b), 0);
-          filteredData.push(sum/chunk.length);
-        }
-        // output.innerHTML = Math.max(...filteredData);
-        output.innerHTML = getString(filteredData);
-        return filteredData;
-      }
-
-      function play(base64) {
-        fetch(base64)
-          .then((response) => response.arrayBuffer())
-          .then((arrayBuffer) => audioContext.decodeAudioData(arrayBuffer))
-          .then((audioBuffer) => filterData(audioBuffer));
-        let audio = new Audio(base64);
-        audio.play();
-      }
-    </script>
-    <!-- The footer holds our remix button — you can use it for structure or cut it out ✂ -->
-    <footer class="footer">
-      <div class="links"></div>
-      <a
-        class="btn--remix"
-        target="_top"
-        href="https://glitch.com/edit/#!/remix/glitch-hello-website"
-      >
-        <img
-          src="https://cdn.glitch.com/605e2a51-d45f-4d87-a285-9410ad350515%2FLogo_Color.svg?v=1618199565140"
-          alt=""
-        />
-        Remix on Glitch
-      </a>
-    </footer>
   </body>
 </html>
