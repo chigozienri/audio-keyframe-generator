@@ -63,11 +63,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pizzicato/0.6.4/Pizzicato.min.js" integrity="sha512-K+cPWcoDCr2JFFfe912LrvRUQbVJuWNfeWK5r/HrmpDs8ELrsjVib8Fs5oAxzu76fG66ajGhDLvvcxBbeEzl9g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
       let audio = document.querySelector("#audio");
-      audio.onchange = () => {console.log(audio.files[0]); play()}
-      function play (filename) {
-        let pz = new Pizzicato.Sound(filename);
-        pz.play();
-        
+      const reader = new FileReader();
+      reader.addEventListener('load', (event) => {
+        console.log(event.target.result);
+      });
+      audio.onchange = () => {play(audio.files[0])}
+      function play (file) {
+        reader.readAsDataURL(file);
       }
     </script>
     <!-- The footer holds our remix button — you can use it for structure or cut it out ✂ -->
