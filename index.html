@@ -129,10 +129,12 @@
         const blockSize = Math.floor(rawData.length / samples); // Number of samples in each subdivision
         const filteredData = [];
         for (let i = 0; i < samples; i++) {
-          filteredData.push(rawData.slice(i * blockSize, (i + 1) * blockSize - 1).reduce(add, 0));
+          let chunk = rawData.slice(i * blockSize, (i + 1) * blockSize - 1)
+          let sum = chunk.reduce((a, b) => Math.abs(a) + Math.abs(b), 0);
+          filteredData.push(sum/chunk.length);
         }
-        output.innerHTML = Math.max(...filteredData);
-        // output.innerHTML = getString(filteredData);
+        // output.innerHTML = Math.max(...filteredData);
+        output.innerHTML = getString(filteredData);
         return filteredData;
       }
 
