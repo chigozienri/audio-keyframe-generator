@@ -57,31 +57,13 @@
     <div class="wrapper">
       <div class="content" role="main">
         <!-- This is the start of content for our page -->
-        <h1 class="title">Hello World!</h1>
-
-        <img
-          src="https://cdn.glitch.com/a9975ea6-8949-4bab-addb-8a95021dc2da%2Fillustration.svg?v=1618177344016"
-          class="illustration"
-          alt="Editor illustration"
-          title="Click the image!"
-        />
-        <!-- Instructions on using this project -->
-        <div class="instructions">
-          <h2>
-            Using this project
-          </h2>
-          <p>
-            This is the Glitch <strong>Hello Website</strong> project. You can
-            use it to build your own site. Check out README.md in the editor for
-            more info and next steps you can take!
-          </p>
-          <!-- ADD BUTTON HERE -->
-          
-          <!-- Once you've added the button from the readme, click it in the page -->
-          <!-- Check out the function in script.js to see how it works -->
-        </div>
+        <input type="file" id="audio" accept="audio/*" />
       </div>
     </div>
+    <script>
+      let audio = document.querySelector("#audio");
+      audio.onchange = () => {console.log(audio.files[0])}
+    </script>
     <!-- The footer holds our remix button — you can use it for structure or cut it out ✂ -->
     <footer class="footer">
       <div class="links"></div>
