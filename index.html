@@ -58,35 +58,41 @@
       <div class="content" role="main">
         <!-- This is the start of content for our page -->
         <input type="file" id="audio" accept="audio/*" />
+        <div id="output">
+          Output
+        </div>
       </div>
     </div>
-<!--     <script src="https://cdnjs.cloudflare.com/ajax/libs/pizzicato/0.6.4/Pizzicato.min.js" integrity="sha512-K+cPWcoDCr2JFFfe912LrvRUQbVJuWNfeWK5r/HrmpDs8ELrsjVib8Fs5oAxzu76fG66ajGhDLvvcxBbeEzl9g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
     <script>
       // Set up audio context
       window.AudioContext = window.AudioContext || window.webkitAudioContext;
       const audioContext = new AudioContext();
       let currentBuffer = null;
-      
+
       let audio = document.querySelector("#audio");
-      audio.onchange = () => {readFile(audio.files[0])}
+      audio.onchange = () => {
+        readFile(audio.files[0]);
+      }; 
+      let output = document.querySelector("#output");
+      
       let content = {};
       let contentProxy = new Proxy(content, {
         set: function (target, key, value) {
-          if (key == 'base64') {
+          if (key == "base64") {
             play(value);
           }
           target[key] = value;
           return true;
-      }
+        },
       });
 
       function readFile(file) {
         const reader = new FileReader();
-        reader.addEventListener('load', (event) => {
+        reader.addEventListener("load", (event) => {
           contentProxy.base64 = event.target.result;
         });
 
-        reader.addEventListener('progress', (event) => {
+        reader.addEventListener("progress", (event) => {
           if (event.loaded && event.total) {
             const percent = (event.loaded / event.total) * 100;
             console.log(`Progress: ${Math.round(percent)}`);
@@ -94,34 +100,47 @@
         });
         reader.readAsDataURL(file);
       }
-      
+
       function _base64ToArrayBuffer(base64) {
-          var binary_string = window.atob(base64);
-          var len = binary_string.length;
-          var bytes = new Uint8Array(len);
-          for (var i = 0; i < len; i++) {
-              bytes[i] = binary_string.charCodeAt(i);
-          }
-          return bytes.buffer;
+        var binary_string = window.atob(base64);
+        var len = binary_string.length;
+        var bytes = new Uint8Array(len);
+        for (var i = 0; i < len; i++) {
+          bytes[i] = binary_string.charCodeAt(i);
+        }
+        return bytes.buffer;
       }
-      
-      function filterData (audioBuffer) {
+
+      function getString(arr) {
+        let string = "";
+        let decimalPrecision = 7;
+        for (let ind of Object.keys(arr)) {
+          let sample = arr[ind];
+          string = string.concat(
+            `${ind}: (${parseFloat(sample).toFixed(decimalPrecision)}), `
+          );
+        }
+        return string;
+      }
+
+      function filterData(audioBuffer) {
         const rawData = audioBuffer.getChannelData(0); // We only need to work with one channel of data
         const samples = 70; // Number of samples we want to have in our final data set
         const blockSize = Math.floor(rawData.length / samples); // Number of samples in each subdivision
         const filteredData = [];
         for (let i = 0; i < samples; i++) {
-          filteredData.push(rawData[i * blockSize]); 
+          filteredData.push(rawData[i * blockSize]* 100);
         }
-        console.log(filteredData);
+        output.innerHTML = getString(filteredData);
         return filteredData;
       }
-      
+
       function play(base64) {
         fetch(base64)
-          .then(response => response.arrayBuffer())
-          .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
-          .then(audioBuffer => filterData(audioBuffer));
+          .then((response) => response.arrayBuffer())
+          .then((arrayBuffer) => audioContext.decodeAudioData(arrayBuffer))
+          .then((audioBuffer) => filterData(audioBuffer));
+        let audio
       }
     </script>
     <!-- The footer holds our remix button — you can use it for structure or cut it out ✂ -->
