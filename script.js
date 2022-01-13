@@ -99,7 +99,10 @@ function filterData(audioBuffer) {
     filteredData.push(sum/chunk.length);
   }
   let max = Math.max(...filteredData); // Normalise - maybe not ideal.
-  filteredData = filteredData.map((x) => x/max).map((x) => Function(`"use strict";return (${pyodide.runPython(fn.value.replace('x', x)})`)());
+  const Parser = require('expr-eval').Parser;
+  const parser = new Parser();
+  let expr = parser.parse(fn.value);
+  filteredData = filteredData.map((x) => x/max).map((x) => expr.evaluate({ x: x }));
   output.innerHTML = getString(filteredData);
   return filteredData;
 }
