@@ -5,6 +5,8 @@ const audioContext = new AudioContext();
 let currentBuffer = null;
 
 const audio = document.querySelector("#audio");
+const framerate = document.querySelector("#framerate");
+framerate.value = 12;
 const analyse = document.querySelector("#analyse");
 analyse.onclick = () => {
   readFile(audio.files[0]);
@@ -39,7 +41,7 @@ function readFile(file) {
   reader.addEventListener("progress", (event) => {
     if (event.loaded && event.total) {
       const percent = (event.loaded / event.total) * 100;
-      console.log(`Progress: ${Math.round(percent)}`);
+      console.log(`Upload progress: ${Math.round(percent)}`);
     }
   });
   reader.readAsDataURL(file);
@@ -60,9 +62,9 @@ function getString(arr) {
 }
 
 function filterData(audioBuffer) {
+  console.log(audioBuffer.numberOfChannels);
   const rawData = audioBuffer.getChannelData(0); // We only need to work with one channel of data
-  console.log(rawData);
-  const samples = 70; //rawData.length; // Number of samples we want to have in our final data set
+  const samples = audioBuffer.duration * framerate.value; //rawData.length; // Number of samples we want to have in our final data set
   const blockSize = Math.floor(rawData.length / samples); // Number of samples in each subdivision
   var filteredData = [];
   for (let i = 0; i < samples; i++) {
