@@ -5,7 +5,8 @@ const audioContext = new AudioContext();
 let currentBuffer = null;
 
 const audio = document.querySelector("#audio");
-audio.onchange = () => {
+const analyse = document.querySelector("#analyse");
+analyse.onclick = () => {
   readFile(audio.files[0]);
 }; 
 const output = document.querySelector("#output");
