@@ -113,25 +113,15 @@
         for (let i = 0; i < samples; i++) {
           filteredData.push(rawData[i * blockSize]); 
         }
+        console.log(filteredData);
         return filteredData;
       }
       
       function play(base64) {
-        let audioBuffer;
         fetch(base64)
           .then(response => response.arrayBuffer())
-          .then(arrayBuffer => audioBuffer = audioContext.decodeAudioData(arrayBuffer));
-          // .then(audioBuffer => audioBuffer = audioBuffer);
-        
-        console.log(filterData(audioBuffer));
-        // let audio = new Audio(base64);
-        // console.log(audio.audioTracks);
-        // let arrayBuffer = _base64ToArrayBuffer(base64);
-        // let audioBuffer = audioContext.decodeAudioData(arrayBuffer);
-        // console.log(audioBuffer);
-        // 
-        // audioBuffer.play();
-        // console.log(audioBuffer.getChannelData(0));
+          .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
+          .then(audioBuffer => filterData(audioBuffer));
       }
     </script>
     <!-- The footer holds our remix button — you can use it for structure or cut it out ✂ -->
