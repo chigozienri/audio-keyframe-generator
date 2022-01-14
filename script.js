@@ -14,6 +14,8 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
 const audioContext = new AudioContext();
 let currentBuffer = null;
 
+var analyser = audioContext.createAnalyser();
+
 const audio = document.querySelector("#audio");
 const framerate = document.querySelector("#framerate");
 framerate.value = 12;
@@ -123,5 +125,17 @@ function play(base64) {
     .then((arrayBuffer) => audioContext.decodeAudioData(arrayBuffer))
     .then((audioBuffer) => filterData(audioBuffer));
   let audio = new Audio(base64);
-  audio.play();
+  // audio.play();
+  
+  
+  var source = audioContext.createMediaElementSource(audio);
+  source.connect(analyser);
+  analyser.connect(audioContext.destination);
+  analyser.fftSize = 2048;
+  var bufferLength = analyser.frequencyBinCount;
+  var dataArray = new Uint8Array(bufferLength);
+  analyser.getByteTimeDomainData(dataArray);
+  
+  console.log(dataArray);
+  console.log(analyser);
 }
