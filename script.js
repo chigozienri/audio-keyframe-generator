@@ -102,7 +102,7 @@ function filterData(audioBuffer) {
   // const Parser = require('expr-eval').Parser;
   // const parser = new Parser();
   // let expr = parser.parse(fn.value);
-  filteredData = filteredData.map((x) => x/max).map((x) => math.eval(fn.value.replace('x', x)));
+  filteredData = filteredData.map((x) => x/max).map((x, ind) => math.eval(fn.value.replace('x', x).replace('y', ind)));
   output.innerHTML = getString(filteredData);
   return filteredData;
 }
