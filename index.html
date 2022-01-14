@@ -42,9 +42,14 @@
     <link rel="stylesheet" href="/style.css" />
 
     <!-- Import the webpage's javascript file -->
-<!--     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.js" integrity="sha512-vRqhAr2wsn+/cSsyz80psBbCcqzz2GTuhGk3bq3dAyytz4J/8XwFqMjiAGFBj+WM95lHBJ9cDf87T3P8yMrY7A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
-<!--     <script src="https://cdnjs.cloudflare.com/ajax/libs/expr-eval/0.10.0/bundle.min.js" integrity="sha512-+igwJj4NcCpguyr7R2azSh5Hl3qOsOKo1WAFbDCxXAPoxLqqgHE3zpU/twAxGsrQrC3Q6hnLurBDbYHYLD9SpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/5.0.0/math.js" integrity="sha512-+KihqiIrhYt4/tFb42KiOJ+wr0PM6dVMw9twO1Ju+sZ0OdgurvE/9dy2jAS0Fr0MCVryF2EXxPH9HRXg6CaFgg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!--     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.js" integrity="sha512-vRqhAr2wsn+/cSsyz80psBbCcqzz2GTuhGk3bq3dAyytz4J/8XwFqMjiAGFBj+WM95lHBJ9cDf87T3P8yMrY7A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+    <!--     <script src="https://cdnjs.cloudflare.com/ajax/libs/expr-eval/0.10.0/bundle.min.js" integrity="sha512-+igwJj4NcCpguyr7R2azSh5Hl3qOsOKo1WAFbDCxXAPoxLqqgHE3zpU/twAxGsrQrC3Q6hnLurBDbYHYLD9SpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/5.0.0/math.js"
+      integrity="sha512-+KihqiIrhYt4/tFb42KiOJ+wr0PM6dVMw9twO1Ju+sZ0OdgurvE/9dy2jAS0Fr0MCVryF2EXxPH9HRXg6CaFgg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
     <script src="/script.js" defer></script>
   </head>
   <body>
@@ -59,42 +64,53 @@
     <!-- The wrapper and content divs set margins and positioning -->
     <div class="wrapper">
       <div class="content" role="main">
-        <h1>
-          Audio to keyframe string generator
-        </h1>
-        <h2>
-          Step 1: Choose an audio file to analyse:
-        </h2>
-        <input type="file" id="audio" accept="audio/*" />
-        <audio id="playback" controls></audio>
-        
-        
-        <h2>
-          Step 2: Choose parameters:
-        </h2>
-        <label for="framerate">Framerate (fps)</label>
-        <input id="framerate" />
-        <label for="fn">Function: This is a function to apply to each frame value, where 'x' is the original amplitude between 0 and 1. You can also use 'y' to indicate the frame number. For example, if you just put in 'x', you will get the raw volume of the frame between 0 and 1. If you put in '1 + x^4 + sin(pi*y/12)', you will get a baseline sine wave with a period of 2 seconds (assuming an fps of 12), plus the amplitude to the 4th power, plus 1)</label>
-        <input id="fn" />
-        <button id="analyse">Analyse audio</button>
-        
-        
-        <h2>
-          Step 3: Copy string:
-        </h2>
-        <div id="outputcontainer">
-          <div id="output">Output string will appear here</div>
-          <button id="copy">Copy string</button>
+        <h1>Audio to keyframe string generator</h1>
+        <span
+          >This tool is used to generate strings for the keyframes of AI
+          animation notebooks, such as
+          <a
+            href="https://colab.research.google.com/github/chigozienri/VQGAN-CLIP-animations/blob/main/VQGAN-CLIP-animations.ipynb"
+            >this one</a
+          >, using the volume of audio tracks.</span
+        >
+        <div class="step" id="step1">
+          <h2>Step 1: Choose an audio file to analyse:</h2>
+          <div class="substep"<input type="file" id="audio" accept="audio/*" /><br />
+          <audio id="playback" controls></audio>
         </div>
-        
-        
-        <h2>
-          Step 4: Adjust further using <a href="https://keyframe-string-generator.glitch.me/">http://keyframe-string-generator.glitch.me/</a>
-        </h2>
+        <div class="step" id="step2">
+          <h2>Step 2: Choose parameters:</h2>
+          <label for="framerate">Framerate (fps)</label>
+          <input id="framerate" /><br />
+          <label for="fn"
+            >Function: This is a function to apply to each frame value, where
+            'x' is the original amplitude between 0 and 1. You can also use 'y'
+            to indicate the frame number. For example, if you just put in 'x',
+            you will get the raw volume of the frame between 0 and 1. If you put
+            in '1 + x^4 + sin(pi*y/12)', you will get a baseline sine wave with
+            a period of 2 seconds (assuming an fps of 12), plus the amplitude to
+            the 4th power, plus 1)</label
+          >
+          <input id="fn" />
+        </div>
+        <div class="step" id="step3">
+          <h2>Step 3: Copy string:</h2>
+          <div id="outputcontainer">
+            <div id="output">Output string will appear here</div>
+            <button id="copy">Copy string</button>
+          </div>
+        </div>
+        <div class="step" id="step1">
+          <h2>
+            Step 4 (optional): Adjust further using
+            <a href="https://keyframe-string-generator.glitch.me/"
+              >http://keyframe-string-generator.glitch.me/</a
+            >
+          </h2>
+        </div>
       </div>
     </div>
-    
-    
+
     <div class="links">
       <a href="https://twitter.com/chigozienri">
         <svg

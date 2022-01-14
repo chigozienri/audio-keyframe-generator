@@ -6,22 +6,13 @@ colors, and handle the layout for our footer and "Remix on Glitch" button. If
 you're new to CSS they may seem a little complicated, but you can scroll down
 to this section's matching END comment to see page-specific styles.
 ******************************************************************************/
-
-
-/* 
-  The style rules specify elements by type and by attributes such as class and ID
-  Each section indicates an element or elements, then lists the style properties to apply
-  See if you can cross-reference the rules in this file with the elements in index.html
-*/
-
 /* Our default values set as CSS variables */
 :root {
-  --color-bg: #69F7BE;
+  --color-bg: #ffffa0;
   --color-text-main: #000000;
-  --color-primary: #FFFF00;
-  --wrapper-height: 87vh;
-  --image-max-width: 300px;
-  --image-margin: 3rem;
+  --color-primary: #afece0;
+  --wrapper-height: 85vh;
+  --image-max-width: 320px;
   --font-family: "HK Grotesk";
   --font-family-header: "HK Grotesk";
 }
@@ -47,17 +38,26 @@ to this section's matching END comment to see page-specific styles.
     format("opentype");
 }
 
+/******************************************************************************
+END Glitch hello-app default styles
+******************************************************************************/
+
+/* Page structure */
 body {
   font-family: HK Grotesk;
   background-color: var(--color-bg);
 }
-
-/* Page structure */
 .wrapper {
   min-height: var(--wrapper-height);
-  display: grid;
+  /*   display: grid; */
   place-items: center;
-  margin: 0 1rem;
+  min-height: 86vh;
+  border: none;
+  margin: 1rem;
+  padding: 1rem;
+  box-shadow: 0 0 0 1pt black;
+  background-color: white;
+  outline: none;
 }
 .content {
   display: flex;
@@ -66,39 +66,69 @@ body {
   justify-content: center;
 }
 
-/* Button - Add it from the README instructions */
-#audio {
-  font-family: inherit;
-  font-size: 100%;
-  background: #FFFFFF;
-  border: 1px solid #000000;
-  box-sizing: border-box;
-  border-radius: 4px;
-  padding: 0.5rem 1rem;
-  transition: 500ms;
-}
-
-/* Subheading */
-h2 {
+/* Page titles */
+h1 {
+  font-family: HK Grotesk;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 30px;
 }
 
 #output {
-  font-family: inherit;
-  font-size: 100%;
-  background: #FFFFFF;
-  border: 1px solid #000000;
-  box-sizing: border-box;
-  padding: 0.5rem 1rem;
-  width: 100%;
+  margin: 1rem;
+  border-style: solid;
+  border-width: 1px;
+  padding: 1rem;
+  text-align: left;
 }
 
 #copy {
-  float: right;
+  /*   float: right; */
 }
-#outputcontainer {
+
+#input {
   width: 100%;
-  margin: 1rem;
+  resize: none;
 }
+
+.inputcontainer {
+  text-align: right;
+  width: 100%;
+}
+
+.boundary {
+  width: 40px;
+}
+
+.step {
+  width: 100%;
+  place-items: center;
+  align-items: center;
+  padding: 1rem;
+}
+
 .links {
-  float: right;
+  text-align: right;
+}
+
+#outputcontainer {
+  text-align: right;
+  width: 100%;
+}
+
+.newpromptbutton {
+  margin: 1rem 0;
+}
+
+h2 {
+  margin: 0 0 1rem -1rem;
+}
+
+.flex-container {
+  display: flex;
+}
+
+.flex-child {
+  flex: 1;
+  padding: 1rem;
 }

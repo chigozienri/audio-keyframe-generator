@@ -36,7 +36,6 @@ const framerate = document.querySelector("#framerate");
 framerate.value = 12;
 const fn = document.querySelector("#fn");
 fn.value = "1 + x^4";
-const analyse = document.querySelector("#analyse");
 
 audio.onchange = () => {loadAudio(audio.files[0]); readFile(audio.files[0]);};
 framerate.onchange = () => {
