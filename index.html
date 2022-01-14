@@ -75,23 +75,34 @@
         >
         <div class="step" id="step1">
           <h2>Step 1: Choose an audio file to analyse:</h2>
-          <div class="substep"<input type="file" id="audio" accept="audio/*" /><br />
-          <audio id="playback" controls></audio>
+          <div class="substep">
+            <input type="file" id="audio" accept="audio/*" />
+          </div>
+          <div class="substep"><audio id="playback" controls></audio></div>
         </div>
         <div class="step" id="step2">
           <h2>Step 2: Choose parameters:</h2>
-          <label for="framerate">Framerate (fps)</label>
-          <input id="framerate" /><br />
-          <label for="fn"
-            >Function: This is a function to apply to each frame value, where
-            'x' is the original amplitude between 0 and 1. You can also use 'y'
-            to indicate the frame number. For example, if you just put in 'x',
-            you will get the raw volume of the frame between 0 and 1. If you put
-            in '1 + x^4 + sin(pi*y/12)', you will get a baseline sine wave with
-            a period of 2 seconds (assuming an fps of 12), plus the amplitude to
-            the 4th power, plus 1)</label
-          >
-          <input id="fn" />
+          <div class="substep">
+            'Framerate' controls how coarse the sampling is. For example, if the
+            audio is 2 seconds long, and the fps is 12, then there will be 24
+            samples/frames.
+          </div>
+          <div class="substep">
+            'Function' is a function (in normal mathematical notation) to apply to
+            each frame value, where 'x' is the original amplitude between 0 and
+            1. You can also use 'y' to indicate the frame number. For example,
+            if you just put in 'x', you will get the raw volume of the frame
+            between 0 and 1. If you put in '1 + x^4 + sin(pi*y/12)', you will
+            get a baseline sine wave with a period of 2 seconds (assuming an fps
+            of 12), plus the amplitude to the 4th power, plus 1).
+          </div>
+          <div class="substep">
+            <label for="framerate">Framerate (fps)</label>
+            <input id="framerate" /><br />
+          </div>
+          <div class="substep">
+            <label for="fn">Function</label> <input id="fn" />
+          </div>
         </div>
         <div class="step" id="step3">
           <h2>Step 3: Copy string:</h2>
