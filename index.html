@@ -65,7 +65,7 @@
         <input type="file" id="audio" accept="audio/*" />
         <label for="framerate">Framerate (fps)</label>
         <input id="framerate" />
-        <label for="fn">Function (type in a function to apply to each frame value, where x is the original amplitude between 0 and 1. You can also use y to indicate the frame number.)</label>
+        <label for="fn">Function: This is a function to apply to each frame value, where 'x' is the original amplitude between 0 and 1. You can also use 'y' to indicate the frame number. For example, if you just put in 'x', you will get the raw volume of the frame between 0 and 1. If you put in '1 + x^4 + sin(y/12)', you will get a baseline sine wave with a period of 1 second (assuming ))</label>
         <input id="fn" />
         <button id="analyse">Analyse audio</button>
         <div id="outputcontainer">
