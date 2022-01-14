@@ -60,18 +60,37 @@
     <div class="wrapper">
       <div class="content" role="main">
         <h1>
-          Choose an audio file to analyse:
+          Audio to keyframe string generator
         </h1>
+        <h2>
+          Step 1: Choose an audio file to analyse:
+        </h2>
         <input type="file" id="audio" accept="audio/*" />
+        <audio id="playback" controls></audio>
+        
+        
+        <h2>
+          Step 2: Choose parameters:
+        </h2>
         <label for="framerate">Framerate (fps)</label>
         <input id="framerate" />
         <label for="fn">Function: This is a function to apply to each frame value, where 'x' is the original amplitude between 0 and 1. You can also use 'y' to indicate the frame number. For example, if you just put in 'x', you will get the raw volume of the frame between 0 and 1. If you put in '1 + x^4 + sin(pi*y/12)', you will get a baseline sine wave with a period of 2 seconds (assuming an fps of 12), plus the amplitude to the 4th power, plus 1)</label>
         <input id="fn" />
         <button id="analyse">Analyse audio</button>
+        
+        
+        <h2>
+          Step 3: Copy string:
+        </h2>
         <div id="outputcontainer">
           <div id="output">Output string will appear here</div>
           <button id="copy">Copy string</button>
         </div>
+        
+        
+        <h2>
+          Step 4: Adjust further using <a href="https://keyframe-string-generator.glitch.me/">http://keyframe-string-generator.glitch.me/</a>
+        </h2>
       </div>
     </div>
     

@@ -80,7 +80,6 @@ body {
 
 /* Subheading */
 h2 {
-  color: #2800FF;
 }
 
 #output {
@@ -99,4 +98,7 @@ h2 {
 #outputcontainer {
   width: 100%;
   margin: 1rem;
+}
+.links {
+  float: right;
 }

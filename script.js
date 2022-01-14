@@ -1,13 +1,27 @@
 // Secure math.js eval
-math.import({
-  import: function () { throw new Error('Function import is disabled') },
-  createUnit: function () { throw new Error('Function createUnit is disabled') },
-  evaluate: function () { throw new Error('Function evaluate is disabled') },
-  parse: function () { throw new Error('Function parse is disabled') },
-  simplify: function () { throw new Error('Function simplify is disabled') },
-  derivative: function () { throw new Error('Function derivative is disabled') }
-}, { override: true })
-
+math.import(
+  {
+    import: function () {
+      throw new Error("Function import is disabled");
+    },
+    createUnit: function () {
+      throw new Error("Function createUnit is disabled");
+    },
+    evaluate: function () {
+      throw new Error("Function evaluate is disabled");
+    },
+    parse: function () {
+      throw new Error("Function parse is disabled");
+    },
+    simplify: function () {
+      throw new Error("Function simplify is disabled");
+    },
+    derivative: function () {
+      throw new Error("Function derivative is disabled");
+    },
+  },
+  { override: true }
+);
 
 // Set up audio context
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -17,14 +31,20 @@ let currentBuffer = null;
 var analyser = audioContext.createAnalyser();
 
 const audio = document.querySelector("#audio");
+const playback = document.querySelector("#playback");
 const framerate = document.querySelector("#framerate");
 framerate.value = 12;
 const fn = document.querySelector("#fn");
-fn.value = '1 + x^4';
+fn.value = "1 + x^4";
 const analyse = document.querySelector("#analyse");
-analyse.onclick = () => {
+
+audio.onchange = () => {loadAudio(audio.files[0]); readFile(audio.files[0]);};
+framerate.onchange = () => {
   readFile(audio.files[0]);
-}; 
+};
+fn.onchange = () => {
+  readFile(audio.files[0]);
+};
 const output = document.querySelector("#output");
 const copy = document.querySelector("#copy");
 
@@ -43,8 +63,13 @@ let contentProxy = new Proxy(content, {
   },
 });
 
-
 let decimalPrecision = 2;
+
+function loadAudio(file) {
+  playback.src = URL.createObjectURL(file);
+  playback.load();
+  playback.play();
+}
 
 function readFile(file) {
   const reader = new FileReader();
@@ -69,7 +94,7 @@ function getString(arr) {
       `${ind}: (${parseFloat(sample).toFixed(decimalPrecision)})`
     );
     if (ind < arr.length - 1) {
-      string = string.concat(', ');
+      string = string.concat(", ");
     }
   }
   return string;
@@ -81,40 +106,43 @@ function filterData(audioBuffer) {
   // let audioBufferSourceNode = new AudioBufferSourceNode(audioContext, {buffer: audioBuffer})
   // audioBufferSourceNode.connect(merger, 0, 0);
   // console.log(merger);
-//   var analyser = audioContext.createAnalyser();
-//   analyser.fftSize = 2048;
-//   var bufferLength = analyser.frequencyBinCount;
-//   var dataArray = new Uint8Array(bufferLength);
-//   analyser.getByteTimeDomainData(dataArray);
-  
-//   audioBufferSourceNode.connect(analyser);
-//   console.log(dataArray);
-//   audioBufferSourceNode.connect(audioContext.destination)
-  
-  
+  //   var analyser = audioContext.createAnalyser();
+  //   analyser.fftSize = 2048;
+  //   var bufferLength = analyser.frequencyBinCount;
+  //   var dataArray = new Uint8Array(bufferLength);
+  //   analyser.getByteTimeDomainData(dataArray);
+
+  //   audioBufferSourceNode.connect(analyser);
+  //   console.log(dataArray);
+  //   audioBufferSourceNode.connect(audioContext.destination)
+
   // Average between channels. Take abs so we don't have phase issues (and we eventually want absolute value anyway, for volume).
-  function addAbsArrayElements(a,b){
-    return a.map((e,i) => Math.abs(e) + Math.abs(b[i]));
+  function addAbsArrayElements(a, b) {
+    return a.map((e, i) => Math.abs(e) + Math.abs(b[i]));
   }
-  let channels = []
-  for (let i=0; i<audioBuffer.numberOfChannels; i++) {
+  let channels = [];
+  for (let i = 0; i < audioBuffer.numberOfChannels; i++) {
     channels.push(audioBuffer.getChannelData(i));
   }
-  const rawData = channels.reduce(addAbsArrayElements).map((x) => x/audioBuffer.numberOfChannels);
+  const rawData = channels
+    .reduce(addAbsArrayElements)
+    .map((x) => x / audioBuffer.numberOfChannels);
   // const rawData = audioBuffer.getChannelData(0); // We only need to work with one channel of data
   const samples = audioBuffer.duration * framerate.value; //rawData.length; // Number of samples we want to have in our final data set
   const blockSize = Math.floor(rawData.length / samples); // Number of samples in each subdivision
   var filteredData = [];
   for (let i = 0; i < samples; i++) {
-    let chunk = rawData.slice(i * blockSize, (i + 1) * blockSize - 1)
+    let chunk = rawData.slice(i * blockSize, (i + 1) * blockSize - 1);
     let sum = chunk.reduce((a, b) => a + b, 0);
-    filteredData.push(sum/chunk.length);
+    filteredData.push(sum / chunk.length);
   }
   let max = Math.max(...filteredData); // Normalise - maybe not ideal.
   // const Parser = require('expr-eval').Parser;
   // const parser = new Parser();
   // let expr = parser.parse(fn.value);
-  filteredData = filteredData.map((x) => x/max).map((x, ind) => math.eval(fn.value.replace('x', x).replace('y', ind)));
+  filteredData = filteredData
+    .map((x) => x / max)
+    .map((x, ind) => math.eval(fn.value.replace("x", x).replace("y", ind)));
   output.innerHTML = getString(filteredData);
   return filteredData;
 }
@@ -124,16 +152,15 @@ function play(base64) {
     .then((response) => response.arrayBuffer())
     .then((arrayBuffer) => audioContext.decodeAudioData(arrayBuffer))
     .then((audioBuffer) => filterData(audioBuffer));
-  let audio = new Audio(base64);
+  // let audio = new Audio(base64);
   // audio.play();
-  
-  
+
   var source = audioContext.createMediaElementSource(audio);
   source.connect(analyser);
   source.connect(audioContext.destination);
   var dataArray = new Uint8Array(analyser.frequencyBinCount);
   analyser.getByteFrequencyData(dataArray);
-  
+
   console.log(dataArray);
   console.log(analyser);
 }
