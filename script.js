@@ -99,7 +99,7 @@ function filterData(audioBuffer) {
     filteredData.push(sum/chunk.length);
   }
   let max = Math.max(...filteredData); // Normalise - maybe not ideal.
-  const Parser = require('expr-eval').Parser;
+  // const Parser = require('expr-eval').Parser;
   const parser = new Parser();
   let expr = parser.parse(fn.value);
   filteredData = filteredData.map((x) => x/max).map((x) => expr.evaluate({ x: x }));
