@@ -8,7 +8,7 @@ const audio = document.querySelector("#audio");
 const framerate = document.querySelector("#framerate");
 framerate.value = 12;
 const fn = document.querySelector("#fn");
-fn.value = 'x';
+fn.value = '1 + x^4';
 const analyse = document.querySelector("#analyse");
 analyse.onclick = () => {
   readFile(audio.files[0]);
@@ -100,9 +100,9 @@ function filterData(audioBuffer) {
   }
   let max = Math.max(...filteredData); // Normalise - maybe not ideal.
   // const Parser = require('expr-eval').Parser;
-  const parser = new Parser();
-  let expr = parser.parse(fn.value);
-  filteredData = filteredData.map((x) => x/max).map((x) => expr.evaluate({ x: x }));
+  // const parser = new Parser();
+  // let expr = parser.parse(fn.value);
+  filteredData = filteredData.map((x) => x/max).map((x) => math.eval(fn.value.replace('x', x)));
   output.innerHTML = getString(filteredData);
   return filteredData;
 }
