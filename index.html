@@ -19,18 +19,18 @@
     <title>Audio to keyframe string</title>
 
     <!-- Meta tags for SEO and social sharing -->
-    <link rel="canonical" href="https://glitch-hello-website.glitch.me/" />
+    <link rel="canonical" href="https://audio-keyframe-generator.glitch.me/" />
     <meta
       name="description"
-      content="A simple website, built with Glitch. Remix it to get your own."
+      content="Generates keyframe strings for AI notebooks using audio volume."
     />
     <meta name="robots" content="index,follow" />
     <meta property="og:title" content="Hello World!" />
     <meta property="og:type" content="article" />
-    <meta property="og:url" content="https://glitch-hello-website.glitch.me/" />
+    <meta property="og:url" content="https://audio-keyframe-generator.glitch.me/" />
     <meta
       property="og:description"
-      content="A simple website, built with Glitch. Remix it to get your own."
+      content="Generates keyframe strings for AI notebooks using audio volume."
     />
     <meta
       property="og:image"
@@ -88,17 +88,19 @@
             samples/frames.
           </div>
           <div class="substep">
-            'Function' is a function (in normal mathematical notation) to apply to
-            each frame value, where 'x' is the original amplitude between 0 and
-            1. You can also use 'y' to indicate the frame number. For example,
-            if you just put in 'x', you will get the raw volume of the frame
-            between 0 and 1. If you put in '1 + x^4 + sin(pi*y/12)', you will
-            get a baseline sine wave with a period of 2 seconds (assuming an fps
-            of 12), plus the amplitude to the 4th power, plus 1).
+              'Function' is a function (in normal mathematical notation) to
+              apply to each frame value, where '<tt>x</tt>' is the original amplitude
+              between 0 and 1. You can also use '<tt>y</tt>' to indicate the frame
+              number.<br />
+              For example, if you just put in '<tt>x</tt>', you will get the raw volume
+              of the frame between 0 and 1. If you put in '<tt>1 + x^4 +
+              sin(pi*y/12)</tt>', you will get a baseline sine wave with a period of
+              2 seconds (assuming an fps of 12), plus the amplitude to the 4th
+              power, plus 1).
           </div>
           <div class="substep">
             <label for="framerate">Framerate (fps)</label>
-            <input id="framerate" /><br />
+            <input id="framerate" />
           </div>
           <div class="substep">
             <label for="fn">Function</label> <input id="fn" />
