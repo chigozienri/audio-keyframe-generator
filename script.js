@@ -130,11 +130,9 @@ function play(base64) {
   
   var source = audioContext.createMediaElementSource(audio);
   source.connect(analyser);
-  analyser.connect(audioContext.destination);
-  analyser.fftSize = 2048;
-  var bufferLength = analyser.frequencyBinCount;
-  var dataArray = new Uint8Array(bufferLength);
-  analyser.getByteTimeDomainData(dataArray);
+  source.connect(audioContext.destination);
+  var dataArray = new Uint8Array(analyser.frequencyBinCount);
+  analyser.getByteFrequencyData(dataArray);
   
   console.log(dataArray);
   console.log(analyser);
