@@ -45,6 +45,7 @@ fn.onchange = () => {
   readFile(audio.files[0]);
 };
 const output = document.querySelector("#output");
+output.onclick = () => {output.select()};
 // const copy = document.querySelector("#copy");
 
 // copy.onclick = () => {

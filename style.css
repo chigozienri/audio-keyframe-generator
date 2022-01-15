@@ -80,6 +80,7 @@ h1 {
   border-width: 1px;
   padding: 1rem;
   text-align: left;
+  width: 100%;
 }
 
 #copy {
