@@ -52,6 +52,10 @@ output.onclick = () => {output.select()};
 //   window.prompt("Copy to clipboard: Ctrl+C, Enter", output.innerHTML);
 // };
 
+const pytti = document.querySelector("#pytti");
+
+pytti.onchange = () => {readFile(audio.files[0])};
+
 let content = {};
 let contentProxy = new Proxy(content, {
   set: function (target, key, value) {
@@ -143,7 +147,13 @@ function filterData(audioBuffer) {
   filteredData = filteredData
     .map((x) => x / max)
     .map((x, ind) => math.eval(fn.value.replace("x", x).replace("y", ind)));
-  output.innerHTML = getString(filteredData);
+  let string = getString(filteredData);
+  
+  if (pytti.checked) {
+    output.innerHTML = `(lambda fps, kf: kf[min(kf, key=lambda x:abs(x-int(round(t * fps, 0))))])(${fps.value}, {${string}})`;
+  } else {
+    output.innerHTML = string;
+  }
   return filteredData;
 }
 
