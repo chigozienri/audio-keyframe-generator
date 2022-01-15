@@ -45,11 +45,11 @@ fn.onchange = () => {
   readFile(audio.files[0]);
 };
 const output = document.querySelector("#output");
-const copy = document.querySelector("#copy");
+// const copy = document.querySelector("#copy");
 
-copy.onclick = () => {
-  window.prompt("Copy to clipboard: Ctrl+C, Enter", output.innerHTML);
-};
+// copy.onclick = () => {
+//   window.prompt("Copy to clipboard: Ctrl+C, Enter", output.innerHTML);
+// };
 
 let content = {};
 let contentProxy = new Proxy(content, {
