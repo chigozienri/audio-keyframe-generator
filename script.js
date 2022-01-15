@@ -150,7 +150,7 @@ function filterData(audioBuffer) {
   let string = getString(filteredData);
   
   if (pytti.checked) {
-    output.innerHTML = `(lambda fps, kf: kf[min(kf, key=lambda x:abs(x-int(round(t * fps, 0))))])(${fps.value}, {${string}})`;
+    output.innerHTML = `(lambda fps, kf: kf[min(kf, key=lambda x:abs(x-int(round(t * fps, 0))))])(${framerate.value}, {${string}})`;
   } else {
     output.innerHTML = string;
   }
