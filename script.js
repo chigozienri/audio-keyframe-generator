@@ -52,9 +52,9 @@ output.onclick = () => {output.select()};
 //   window.prompt("Copy to clipboard: Ctrl+C, Enter", output.innerHTML);
 // };
 
-// const pytti = document.querySelector("#pytti");
+const pytti = document.querySelector("#pytti");
 
-// pytti.onchange = () => {readFile(audio.files[0])};
+pytti.onchange = () => {readFile(audio.files[0])};
 
 let content = {};
 let contentProxy = new Proxy(content, {
@@ -149,13 +149,13 @@ function filterData(audioBuffer) {
     .map((x, ind) => math.eval(fn.value.replace("x", x).replace("y", ind)));
   let string = getString(filteredData);
   
-//   if (pytti.checked) {
-//     output.innerHTML = `(lambda fps, kf: kf[min(kf, key=lambda x:abs(x-int(round(t * fps, 0))))])(${framerate.value}, {${string}})`;
-//   } else {
-//     output.innerHTML = string;
-//   }
-//   return filteredData;
-// }
+  if (pytti.checked) {
+    output.innerHTML = `(lambda builtins, fps, kf: kf[builtins["min"](kf, key = lambda x: builtins["abs"](x-(t*fps)//1))])([a for a in (1).__class__.__base__.__subclasses__() if a.__name__ == "catch_warnings"][0]()._module.__builtins__, ${framerate.value}, {${string}})`;
+  } else {
+    output.innerHTML = string;
+  }
+  return filteredData;
+}
 
 function play(base64) {
   fetch(base64)
