@@ -45,12 +45,13 @@ fn.onchange = () => {
   readFile(audio.files[0]);
 };
 const output = document.querySelector("#output");
-output.onclick = () => {output.select()};
-// const copy = document.querySelector("#copy");
+// output.onclick = () => {output.select()};
+const copy = document.querySelector("#copy");
 
-// copy.onclick = () => {
-//   window.prompt("Copy to clipboard: Ctrl+C, Enter", output.innerHTML);
-// };
+copy.onclick = () => {
+  output.select();
+  document.execCommand("copy");
+};
 
 const pytti = document.querySelector("#pytti");
 
