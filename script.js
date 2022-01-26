@@ -38,13 +38,17 @@ framerate.value = 12;
 const fn = document.querySelector("#fn");
 fn.value = "1 + x^4";
 
-// body.addEventListener('drop', (ev) => {
-//   ev.preventDefault();
-//   ev.stopPropagation();
-//   audio.files = ev.originalEvent.dataTransfer.files;
-//   loadAudio(audio.files[0]);
-//   readFile(audio.files[0]);
-// }, false)
+body.ondragover = body.ondragenter = function(evt) {
+  evt.preventDefault();
+};
+
+body.ondrop = function(evt) {
+  audio.files = evt.dataTransfer.files;
+  evt.preventDefault();
+  loadAudio(audio.files[0]);
+  readFile(audio.files[0]);
+};
+
 audio.onchange = () => {loadAudio(audio.files[0]); readFile(audio.files[0]);};
 framerate.onchange = () => {
   readFile(audio.files[0]);
@@ -174,12 +178,12 @@ function play(base64) {
   // let audio = new Audio(base64);
   // audio.play();
 
-  var source = audioContext.createMediaElementSource(audio);
-  source.connect(analyser);
-  source.connect(audioContext.destination);
-  var dataArray = new Uint8Array(analyser.frequencyBinCount);
-  analyser.getByteFrequencyData(dataArray);
+  // var source = audioContext.createMediaElementSource(audio);
+  // source.connect(analyser);
+  // source.connect(audioContext.destination);
+  // var dataArray = new Uint8Array(analyser.frequencyBinCount);
+  // analyser.getByteFrequencyData(dataArray);
 
-  console.log(dataArray);
-  console.log(analyser);
+  // console.log(dataArray);
+  // console.log(analyser);
 }
