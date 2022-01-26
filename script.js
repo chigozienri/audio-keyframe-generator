@@ -30,6 +30,7 @@ let currentBuffer = null;
 
 var analyser = audioContext.createAnalyser();
 
+const body = document.querySelector("body");
 const audio = document.querySelector("#audio");
 const playback = document.querySelector("#playback");
 const framerate = document.querySelector("#framerate");
@@ -37,6 +38,13 @@ framerate.value = 12;
 const fn = document.querySelector("#fn");
 fn.value = "1 + x^4";
 
+// body.addEventListener('drop', (ev) => {
+//   ev.preventDefault();
+//   ev.stopPropagation();
+//   audio.files = ev.originalEvent.dataTransfer.files;
+//   loadAudio(audio.files[0]);
+//   readFile(audio.files[0]);
+// }, false)
 audio.onchange = () => {loadAudio(audio.files[0]); readFile(audio.files[0]);};
 framerate.onchange = () => {
   readFile(audio.files[0]);
