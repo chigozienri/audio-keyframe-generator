@@ -110,7 +110,7 @@ function getString(arr) {
     string = string.concat(
       `${ind}: (${parseFloat(sample).toFixed(decimalPrecision)})`
     );
-    if (ind < arr.length - 1) {
+    if (parseInt(ind) < parseInt(arr.length - 1)) {
       string = string.concat(", ");
     }
   }
