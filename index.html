@@ -108,8 +108,12 @@
           <span>If PyTTI format is checked, it will attempt to make a function that PyTTI will understand, but it is experimental. Let me know if you try it out.</span>
           
           <div class="substep">
-            <label for="pytti">PyTTI format? (Experimental)</label>
-            <input type="checkbox" id="pytti" />
+            <label for="format">Format</label>
+            <select name="format">
+              <option value="disco" selected>Disco</option>
+              <option value="pytti">PyTTI</option>
+              <option value="csv">CSV</option>
+            </select>
           </div>
           <div id="outputcontainer">
             <textarea id="output" readonly="true">Output string will appear here</textarea>
@@ -119,8 +123,8 @@
         <div class="step" id="step4">
           <h2>
             Step 4 (optional): Edit further using
-            <a href="https://keyframe-string-generator.glitch.me/"
-              >http://keyframe-string-generator.glitch.me/</a
+            <a href="https://chigozie.co.uk/keyframe-string-generator"
+              >https://chigozie.co.uk/keyframe-string-generator</a
             >
           </h2>
         </div>

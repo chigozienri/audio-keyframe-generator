@@ -65,9 +65,9 @@ copy.onclick = () => {
   document.execCommand("copy");
 };
 
-const pytti = document.querySelector("#pytti");
+let format = document.querySelector('[name="format"]')
 
-pytti.onchange = () => {readFile(audio.files[0])};
+format.onchange = () => {readFile(audio.files[0])};
 
 let content = {};
 let contentProxy = new Proxy(content, {
@@ -162,10 +162,14 @@ function filterData(audioBuffer) {
     .map((x, ind) => math.eval(fn.value.replace("x", x).replace("y", ind)));
   let string = getString(filteredData);
   
-  if (pytti.checked) {
+  if (format.value == "pytti") {
     output.innerHTML = `(lambda builtins, fps, kf: kf[builtins["min"](kf, key = lambda x: builtins["abs"](x-(t*fps)//1))])([a for a in (1).__class__.__base__.__subclasses__() if a.__name__ == "catch_warnings"][0]()._module.__builtins__, ${framerate.value}, {${string}})`;
-  } else {
+  } else if (format.value == "disco") {
     output.innerHTML = string;
+  } else if ((format.value == "csv")) {
+    var matches = string.matchAll(/\(([0-9.]+)\)/g)
+    let CSVString = [... matches].map((e) => e[1]).join(',\n')
+    output.innerHTML = CSVString;
   }
   return filteredData;
 }
