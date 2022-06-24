@@ -168,7 +168,7 @@ function filterData(audioBuffer) {
     output.innerHTML = string;
   } else if ((format.value == "csv")) {
     var matches = string.matchAll(/\(([0-9.]+)\)/g)
-    let CSVString = [... matches].map((e) => e[1]).join(',\n')
+    let CSVString = [... matches].map((e) => e[1]).join(', ')
     output.innerHTML = CSVString;
   }
   return filteredData;
