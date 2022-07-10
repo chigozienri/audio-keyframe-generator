@@ -167,7 +167,7 @@ function filterData(audioBuffer) {
   } else if (format.value == "disco") {
     output.innerHTML = string;
   } else if ((format.value == "csv")) {
-    var matches = string.matchAll(/\(([0-9.]+)\)/g)
+    var matches = string.matchAll(/\(([\-0-9.]+)\)/g)
     let CSVString = [... matches].map((e) => e[1]).join('\n')
     output.innerHTML = CSVString;
   }
